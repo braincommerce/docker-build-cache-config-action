@@ -11,7 +11,7 @@ type Outputs = {
 }
 
 export const generateDockerFlags = (inputs: Inputs): Outputs => {
-  const cacheFrom = inputs.cacheFromImageTag.map((tag) => {
+  const cacheFrom = inputs.cacheFromImageTag.map((tag) => tag.toLowerCase()).map((tag) => {
     const cacheFrom = ['type=registry', `ref=${tag}`]
     if (inputs.extraCacheFrom) {
       cacheFrom.push(inputs.extraCacheFrom)
@@ -19,7 +19,7 @@ export const generateDockerFlags = (inputs: Inputs): Outputs => {
     return cacheFrom.join(',')
   })
 
-  const cacheTo = inputs.cacheToImageTag.map((tag) => {
+  const cacheTo = inputs.cacheToImageTag.map((tag) => tag.toLowerCase()).map((tag) => {
     const cacheTo = []
     cacheTo.push('type=registry', `ref=${tag}`, 'mode=max')
     if (inputs.extraCacheTo) {
